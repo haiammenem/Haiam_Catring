@@ -1,0 +1,61 @@
+{
+  "/LocalHub": [
+    "/LocalHub/bulk-import.png",
+    "/LocalHub/cod-tracking.png",
+    "/LocalHub/dashboard.png",
+    "/LocalHub/expenses.png",
+    "/LocalHub/hourly-sales-report.png",
+    "/LocalHub/inventory.png",
+    "/LocalHub/pos-screen.png",
+    "/LocalHub/receipt.png",
+    "/LocalHub/refund-analytics.png",
+    "/LocalHub/reports.png",
+    "/LocalHub/syncing-database.png"
+  ],
+  "/": ["/portfolio.png", "/profile.png"],
+  "/RPG": ["/RPG/under_progress.jpg"],
+  "/Shaffaf Edit Version": [
+    "/Shaffaf Edit Version/BMW car.png",
+    "/Shaffaf Edit Version/Book appointment.png",
+    "/Shaffaf Edit Version/Cart.png",
+    "/Shaffaf Edit Version/Categories.png",
+    "/Shaffaf Edit Version/Edit Profile.png",
+    "/Shaffaf Edit Version/Favorite.png",
+    "/Shaffaf Edit Version/Home.png",
+    "/Shaffaf Edit Version/Location.png",
+    "/Shaffaf Edit Version/Login.png",
+    "/Shaffaf Edit Version/My Cars.png",
+    "/Shaffaf Edit Version/Notifications.png",
+    "/Shaffaf Edit Version/Onboarding1.png",
+    "/Shaffaf Edit Version/Onboarding2.png",
+    "/Shaffaf Edit Version/Orders.png",
+    "/Shaffaf Edit Version/Product Review.png",
+    "/Shaffaf Edit Version/Profile.png",
+    "/Shaffaf Edit Version/Sale of car glass.png",
+    "/Shaffaf Edit Version/Settings.png",
+    "/Shaffaf Edit Version/Shaffaf Mockup.png",
+    "/Shaffaf Edit Version/Sign Up.png",
+    "/Shaffaf Edit Version/Splash.png",
+    "/Shaffaf Edit Version/Wheel product details.png",
+    "/Shaffaf Edit Version/Wheels Categories.png",
+    "/Shaffaf Edit Version/book appointment2.png"
+  ],
+  "/SubTrain": [
+    "/SubTrain/Confirm Train Ticket.png",
+    "/SubTrain/Home (Subway).png",
+    "/SubTrain/Home (Train).png",
+    "/SubTrain/Login.png",
+    "/SubTrain/Mockup.png",
+    "/SubTrain/Sign Up.png",
+    "/SubTrain/Splash.png",
+    "/SubTrain/Subway Booking.png",
+    "/SubTrain/Subway Path.png",
+    "/SubTrain/Ticket QR.png",
+    "/SubTrain/Tickets.png",
+    "/SubTrain/Train Seat booking.png"
+  ],
+  "/": [
+    "/portfolio.png",
+    "/profile.png"
+  ]
+}
