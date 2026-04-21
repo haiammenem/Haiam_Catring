@@ -1,15 +1,40 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --color-primary: #78350f; /* amber-900 */
+  --color-accent: #b45309; /* amber-700 */
+  --color-bg: #faf8f5;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: flex-start;
-  min-width: 320px;
-  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: #1c1917; /* stone-900 */
+  overflow-x: hidden;
+}
+
+/* Grainy texture overlay */
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Custom selection */
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
 }
