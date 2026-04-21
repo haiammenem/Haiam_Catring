@@ -12,83 +12,12 @@ import {
   X,
   MessageCircle,
   Star,
-  Quote
+  Quote,
+  Zap
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { SpeedInsights } from "@vercel/speed-insights/react";
-
-const MENU_CATEGORIES = {
-  POULTRY: 'Chicken & Poultry',
-  MEAT: 'Grills & Tagines',
-  TRAYS: 'Oven Trays & Sides',
-  RICE: 'Rice & Mahashi'
-};
-
-const MENU_DATA = {
-  [MENU_CATEGORIES.POULTRY]: [
-    { en: "Orange Duck", ar: "بط بالبرتقال", price: "700 - 1000 LE", tag: "Royal" },
-    { en: "Stuffed Pigeon", ar: "حمام محشي", price: "400 LE", tag: "Royal" },
-    { en: "Roasted Turkey", ar: "ديك رومي", price: "Start 1500 LE", tag: "Royal" },
-    { en: "Smoked Turkey", ar: "تركي مدخن", price: "Per Kg", tag: "Royal" },
-    { en: "Roasted Chicken Breast", ar: "صدور روستو", price: "400 LE" },
-    { en: "Grilled Chicken (4 Flavors)", ar: "فراخ مشوية", price: "400 LE" },
-    { en: "Chicken Tray", ar: "فراخ صينية", price: "450 LE" },
-    { en: "Stuffed Chicken", ar: "فراخ محشية", price: "From 200 LE" },
-    { en: "Chicken Kofta", ar: "كفتة فراخ", price: "400 LE" },
-    { en: "Cordon Bleu", ar: "كوردن بلو", price: "450 LE" },
-    { en: "Chicken Piccata", ar: "بيكاتا بالمشروم", price: "450 LE" },
-    { en: "Pane Fried/Grilled", ar: "بانية", price: "400 LE" },
-    { en: "Chicken Shawerma", ar: "شاورما فراخ", price: "400 LE" },
-    { en: "Chicken Roll", ar: "تشيكن رول", price: "410 LE" },
-  ],
-  [MENU_CATEGORIES.MEAT]: [
-    { en: "Grilled Kofta", ar: "كفتة مشوية", price: "750 LE", tag: "Grill" },
-    { en: "Tarab", ar: "طرب", price: "750 LE", tag: "Grill" },
-    { en: "Grilled Steak", ar: "ستيك مشوي", price: "750 LE", tag: "Grill" },
-    { en: "Lamb Chops", ar: "ريش", price: "1000 LE", tag: "Grill" },
-    { en: "Lamb Leg", ar: "فخذة ضاني", price: "Per Kg", tag: "Grill" },
-    { en: "Cold Cuts Roast", ar: "لحمة باردة", price: "Per Kg", tag: "Grill" },
-    { en: "Grilled Sausage", ar: "سجق مشوي", price: "600 LE", tag: "Grill" },
-    { en: "Meat Onion Tagine", ar: "طاجن لحمة", price: "350 - 700 LE", tag: "Tagine" },
-    { en: "Oxtail Tagine", ar: "طاجن عكاوي", price: "750 LE", tag: "Tagine" },
-    { en: "Trotters", ar: "كوارع", price: "600 LE", tag: "Tagine" },
-    { en: "Boeuf / Escalope", ar: "بوفيتك", price: "700 LE" },
-    { en: "Meat Piccata", ar: "بيكاتا لحمة", price: "700 LE" },
-    { en: "Liver Pane", ar: "كبدة بانيه", price: "680 LE" },
-    { en: "Kofta Pane", ar: "كفتة بانيه", price: "670 LE" },
-    { en: "Meat Shawerma", ar: "شاورما لحمة", price: "650 LE" },
-    { en: "Rice Kofta", ar: "كفتة أرز", price: "350 LE" },
-  ],
-  [MENU_CATEGORIES.TRAYS]: [
-    { en: "Roqaq (Meat & Ghee)", ar: "رقاق باللحمة", price: "450 LE" },
-    { en: "Macarona Béchamel", ar: "مكرونة بشاميل", price: "450 LE" },
-    { en: "Macarona Sausage", ar: "مكرونة بالسجق", price: "450 LE" },
-    { en: "Lasagna", ar: "لازانيا", price: "450 LE" },
-    { en: "Negresco (Chicken)", ar: "نجرسكو", price: "450 LE" },
-    { en: "Cannelloni", ar: "كانيلوني", price: "450 LE" },
-    { en: "Zucchini Béchamel", ar: "كوسة بالبشاميل", price: "400 LE" },
-    { en: "Moussaka (Meat)", ar: "مسقعة باللحمة", price: "350 LE" },
-    { en: "Potato Gratin Chicken", ar: "بطاطس جراتان", price: "400 LE" },
-    { en: "Goulash Meat", ar: "جلاش لحمة", price: "400 LE" },
-    { en: "Goulash Mix Cheese", ar: "جلاش مكس جبن", price: "350 LE" },
-  ],
-  [MENU_CATEGORIES.RICE]: [
-    { en: "Vine Leaves / Cabbage", ar: "ورق عنب / كرنب", price: "200 LE", tag: "Mahashi" },
-    { en: "Mombar", ar: "ممبار", price: "300 LE", tag: "Mahashi" },
-    { en: "Sambousek", ar: "سمبوسك", price: "350 LE", tag: "Appetizer" },
-    { en: "Kobeba", ar: "كبيبة شامي", price: "350 LE", tag: "Appetizer" },
-    { en: "Fresh Salads", ar: "السلطات", price: "Start 50 LE", desc: "Green Salad, Tahina, Baba Ghanoush" },
-    { en: "Fatta (Meat & Vinegar)", ar: "فتة لحمة", price: "500 LE", tag: "Special" },
-    { en: "Rice w/ Nuts", ar: "أرز بالخلطة", price: "250 LE" },
-    { en: "Basmati Rice", ar: "أرز بسمتي", price: "150 LE" },
-    { en: "Meammar Rice (Cream)", ar: "أرز معمر", price: "170 LE" },
-    { en: "Meammar (w/ Pigeon/Meat)", ar: "أرز معمر باللحم", price: "Ask Price" },
-    { en: "Frik Tagine (Cream)", ar: "طاجن فريك", price: "180 LE" },
-    { en: "Orzo Tagine (Liver/Meat)", ar: "طاجن لسان عصفور", price: "Ask Price" },
-    { en: "Knuckles Soup", ar: "شوربة كوارع", price: "150 LE" },
-    { en: "Orzo / Vermicelli Soup", ar: "شوربة لسان عصفور", price: "30 LE" },
-  ]
-};
+import { MENU_CATEGORIES, MENU_DATA } from './data/menu';
 
 const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -193,6 +122,87 @@ const SpiceParticle = ({ delay }) => {
   );
 };
 
+const MenuItem = ({ item, idx }) => {
+  const isRoyal = item.tag === 'Royal';
+  const isGrill = item.tag === 'Grill';
+  const isTagine = item.tag === 'Tagine';
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.6, delay: idx * 0.03, ease: [0.16, 1, 0.3, 1] }}
+      className="bg-white p-6 md:p-8 group relative overflow-hidden transition-all duration-700 hover:z-10"
+    >
+      {/* Background Reveal Effect */}
+      <div className="absolute inset-0 bg-stone-50/50 -translate-x-full group-hover:translate-x-0 transition-transform duration-1000 ease-[0.16,1,0.3,1]" />
+      
+      {/* Editorial Index number */}
+      <span className="absolute -top-4 -right-4 text-9xl font-serif text-stone-100/50 pointer-events-none group-hover:text-amber-900/5 transition-colors duration-700 select-none">
+        {(idx + 1).toString().padStart(2, '0')}
+      </span>
+
+      <div className="relative z-10 flex flex-col h-full justify-between gap-10">
+        <div className="space-y-8">
+          <div className="flex justify-between items-start gap-4">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${
+                  isRoyal ? 'bg-amber-500 scale-125' : 'bg-stone-300 group-hover:bg-amber-900'
+                }`} />
+                <span className={`text-[10px] font-black uppercase tracking-[0.4em] transition-colors ${
+                  isRoyal ? 'text-amber-600' : 'text-stone-400 group-hover:text-stone-900'
+                }`}>
+                  {item.tag || 'Selection'}
+                </span>
+              </div>
+              <h4 className="text-3xl md:text-4xl font-serif text-stone-900 leading-tight transition-transform duration-500 group-hover:translate-x-1">
+                {item.en}
+              </h4>
+            </div>
+            
+            <div className="flex flex-col items-end shrink-0">
+              <span className="font-serif text-2xl text-amber-900 group-hover:scale-110 transition-transform duration-500 origin-right">{item.price}</span>
+              <div className="h-px w-6 bg-stone-200 mt-2 group-hover:w-full transition-all duration-700" />
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <p className="text-stone-800 font-arabic text-4xl md:text-5xl leading-tight text-right transition-all duration-700 group-hover:text-amber-950" dir="rtl">
+              {item.ar}
+            </p>
+            
+            {item.desc && (
+              <p className="text-stone-400 text-sm font-medium leading-relaxed italic max-w-xs border-l-2 border-stone-100 pl-4 py-1">
+                {item.desc}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center pt-8 border-t border-stone-50 opacity-40 group-hover:opacity-100 transition-all duration-500">
+          <div className="flex items-center gap-3">
+            <div className="p-1.5 bg-stone-50 rounded-lg group-hover:bg-amber-50 transition-colors">
+              <Zap size={12} className={isRoyal ? 'text-amber-500' : 'text-stone-300 group-hover:text-amber-600'} />
+            </div>
+            <span className="text-[9px] font-black uppercase tracking-widest text-stone-400 group-hover:text-stone-600">Premium Choice</span>
+          </div>
+          <MagneticButton className="p-3 bg-stone-900 group-hover:bg-amber-900 rounded-full text-white shadow-lg transition-colors overflow-hidden relative">
+            <motion.div
+              whileHover={{ x: 30 }}
+              className="relative z-10"
+            >
+              <ArrowRight size={16} />
+            </motion.div>
+          </MagneticButton>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export default function App() {
   const [activeTab, setActiveTab] = useState(MENU_CATEGORIES.POULTRY);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -225,11 +235,11 @@ export default function App() {
 
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-        scrolled ? 'py-4' : 'py-8'
+        scrolled ? 'py-4' : 'py-6'
       }`}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className={`glass rounded-full px-8 py-3 flex justify-between items-center transition-all duration-700 ${
-            scrolled ? 'shadow-2xl shadow-stone-900/5' : 'bg-transparent border-transparent'
+          <div className={`glass rounded-full px-8 py-3.5 flex justify-between items-center transition-all duration-700 ${
+            scrolled ? 'shadow-xl shadow-stone-900/5' : 'bg-transparent border-transparent'
           }`}>
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
@@ -237,15 +247,15 @@ export default function App() {
               className="flex items-center gap-3"
             >
               <div className="bg-amber-900 p-2 rounded-xl text-white">
-                <ChefHat size={20} />
+                <ChefHat size={22} />
               </div>
               <div>
-                <h1 className="font-serif font-black text-lg tracking-tight leading-none text-stone-900">HAIAM'S</h1>
+                <h1 className="font-serif font-black text-xl tracking-tight leading-none text-stone-900 uppercase">HAIAM'S</h1>
                 <p className="text-[9px] uppercase tracking-[0.4em] text-amber-700 font-bold -mt-0.5">Catering</p>
               </div>
             </motion.div>
 
-            <div className="hidden md:flex gap-12 text-[10px] font-black tracking-[0.3em] text-stone-400 uppercase">
+            <div className="hidden md:flex gap-10 text-[10px] font-black tracking-[0.3em] text-stone-400 uppercase">
               {['story', 'menu', 'order'].map((item) => (
                 <a 
                   key={item}
@@ -263,36 +273,36 @@ export default function App() {
             <div className="flex items-center gap-4">
               <MagneticButton 
                 onClick={handleWhatsApp}
-                className="hidden sm:flex bg-amber-900 hover:bg-stone-900 text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all items-center gap-2"
+                className="hidden sm:flex bg-amber-900 hover:bg-stone-900 text-white px-7 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all items-center gap-2"
               >
-                Inquiry <ArrowRight size={12} />
+                Inquiry <ArrowRight size={13} />
               </MagneticButton>
               <button 
                 className="md:hidden text-stone-900 p-2"
                 onClick={() => setIsMenuOpen(true)}
               >
-                <MenuIcon size={20} />
+                <MenuIcon size={22} />
               </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section - Cinematic Reveal */}
-      <section className="relative min-h-[110vh] flex items-center justify-center pt-20 px-6">
+      {/* Hero Section */}
+      <section className="relative min-h-[100vh] flex items-center justify-center pt-20 px-6 text-center">
         <motion.div 
           style={{ scale, opacity }}
-          className="max-w-7xl mx-auto w-full text-center relative z-10"
+          className="max-w-7xl mx-auto w-full relative z-10"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-block text-amber-900 font-bold tracking-[0.6em] uppercase text-[10px] mb-8">
+            <span className="inline-block text-amber-900 font-bold tracking-[0.5em] uppercase text-[10px] mb-6">
               Shorouk's Finest Homemade
             </span>
-            <h2 className="text-7xl md:text-[11rem] font-serif font-medium leading-[0.8] text-stone-900 mb-12 tracking-tighter">
+            <h2 className="text-7xl md:text-[10rem] font-serif font-medium leading-[0.85] text-stone-900 mb-10 tracking-tighter">
               Authentic <br />
               <span className="italic font-normal text-amber-900/90 relative">
                 Kitchen
@@ -308,72 +318,54 @@ export default function App() {
               </span>
             </h2>
             
-            <div className="flex flex-col items-center gap-12 mt-20">
-              <p className="text-stone-500 max-w-sm text-sm font-medium leading-relaxed tracking-wide">
-                WE BELIEVE IN THE PATIENCE OF TRADITION. EVERY DISH IS A STORY OF FLAVOUR, TOLD THROUGH FRESH INGREDIENTS.
+            <div className="flex flex-col items-center gap-10 mt-16">
+              <p className="text-stone-500 max-w-sm text-base font-medium leading-relaxed tracking-wide uppercase">
+                WE BELIEVE IN THE PATIENCE OF TRADITION. EVERY DISH IS A STORY OF FLAVOUR.
               </p>
               
-              <div className="flex items-center gap-8">
-                 <div className="w-px h-16 bg-stone-200" />
-                 <a href="#menu" className="group text-stone-900 font-black text-[10px] uppercase tracking-[0.4em] flex flex-col items-center gap-4">
+              <div className="flex items-center gap-10">
+                 <div className="w-px h-20 bg-stone-200" />
+                 <a href="#menu" className="group text-stone-900 font-black text-[10px] uppercase tracking-[0.3em] flex flex-col items-center gap-4">
                     Scroll to Explore
                     <motion.div 
                       animate={{ y: [0, 10, 0] }}
                       transition={{ duration: 2, repeat: Infinity }}
-                      className="w-5 h-8 border-2 border-stone-200 rounded-full flex justify-center p-1"
+                      className="w-5 h-9 border-2 border-stone-200 rounded-full flex justify-center p-1"
                     >
                        <div className="w-1 h-1 bg-amber-900 rounded-full" />
                     </motion.div>
                  </a>
-                 <div className="w-px h-16 bg-stone-200" />
+                 <div className="w-px h-20 bg-stone-200" />
               </div>
             </div>
           </motion.div>
         </motion.div>
-
-        {/* Floating elements */}
-        <motion.div 
-          animate={{ 
-            y: [0, -30, 0],
-            rotate: [0, 5, 0]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/3 -left-20 w-80 h-80 bg-stone-100 rounded-full -z-10 blur-3xl opacity-50"
-        />
-        <motion.div 
-          animate={{ 
-            y: [0, 40, 0],
-            rotate: [0, -10, 0]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/4 -right-20 w-96 h-96 bg-amber-100 rounded-full -z-10 blur-3xl opacity-40"
-        />
       </section>
 
-      {/* Story Section - Editorial Layout */}
-      <section id="story" className="py-40 bg-white relative">
+      {/* Story Section */}
+      <section id="story" className="py-32 md:py-44 bg-white relative">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
+          <div className="grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-5 relative">
                <motion.div 
                  initial={{ opacity: 0, x: -50 }}
                  whileInView={{ opacity: 1, x: 0 }}
                  viewport={{ once: true }}
-                 className="aspect-[3/4] bg-stone-100 rounded-[3rem] overflow-hidden relative z-10 shadow-3xl"
+                 className="aspect-[3/4] bg-stone-100 rounded-[3rem] overflow-hidden relative z-10 shadow-2xl"
                >
                   <div className="absolute inset-0 bg-stone-900/5 mix-blend-multiply" />
                   <div className="w-full h-full flex items-center justify-center opacity-10">
-                    <ChefHat size={120} />
+                    <ChefHat size={140} />
                   </div>
                </motion.div>
                <motion.div 
                  initial={{ opacity: 0, scale: 0.8 }}
                  whileInView={{ opacity: 1, scale: 1 }}
                  viewport={{ once: true }}
-                 className="absolute -bottom-10 -right-10 w-48 h-48 bg-amber-900 rounded-[2rem] z-20 p-8 text-white flex flex-col justify-end"
+                 className="absolute -bottom-8 -right-8 w-56 h-56 bg-amber-900 rounded-[2.5rem] z-20 p-8 text-white flex flex-col justify-end shadow-xl"
                >
-                  <Quote className="mb-4 opacity-50" />
-                  <p className="text-xs font-bold leading-relaxed">Making home taste like home again.</p>
+                  <Quote className="mb-4 opacity-50" size={32} />
+                  <p className="text-lg font-bold leading-relaxed italic">Making home taste like home again.</p>
                </motion.div>
             </div>
 
@@ -384,21 +376,21 @@ export default function App() {
                  viewport={{ once: true }}
                >
                  <span className="text-amber-900 font-bold tracking-[0.4em] uppercase text-[10px] mb-6 block">Our philosophy</span>
-                 <h3 className="text-5xl md:text-6xl font-serif text-stone-900 leading-tight mb-8 italic">
+                 <h3 className="text-5xl md:text-7xl font-serif text-stone-900 leading-tight mb-8 italic">
                    "A kitchen where <br />time is the main <br />ingredient."
                  </h3>
-                 <p className="text-stone-500 text-lg leading-relaxed font-light">
-                   Chef Haiam believes that the secret to Egyptian cuisine isn't just the spice—it's the soul. For 2 years, we've focused on small-batch catering, ensuring every Mahashi, Tagine, and Roast is treated with the individual attention it deserves.
+                 <p className="text-stone-500 text-xl leading-relaxed font-light">
+                   Chef Haiam believes that the secret to Egyptian cuisine isn't just the spice—it's the soul. For 2 years, we've focused on small-batch catering, ensuring every dish is treated with individual attention.
                  </p>
                </motion.div>
 
-               <div className="grid grid-cols-2 gap-8 pt-8">
+               <div className="grid grid-cols-2 gap-10 pt-6">
                   <div>
-                    <h4 className="text-4xl font-serif text-amber-900 mb-2">100%</h4>
+                    <h4 className="text-5xl font-serif text-amber-900 mb-2">100%</h4>
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Fresh Guarantee</p>
                   </div>
                   <div>
-                    <h4 className="text-4xl font-serif text-amber-900 mb-2">48h</h4>
+                    <h4 className="text-5xl font-serif text-amber-900 mb-2">48h</h4>
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Notice Period</p>
                   </div>
                </div>
@@ -407,113 +399,111 @@ export default function App() {
         </div>
       </section>
 
-      {/* Menu - Minimalist Art Deco Grid */}
-      <section id="menu" className="py-40 bg-[#faf8f5]">
+      {/* Enhanced Menu Section */}
+      <section id="menu" className="py-32 md:py-44 bg-[#faf8f5] overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col items-center text-center mb-24">
-            <span className="text-amber-900 font-bold tracking-[0.5em] uppercase text-[10px] mb-6">The Curator</span>
-            <h3 className="text-6xl md:text-8xl font-serif text-stone-900 mb-12 italic">Catering List</h3>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-32 gap-12">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-2xl"
+            >
+              <span className="text-amber-900 font-bold tracking-[0.5em] uppercase text-[10px] mb-6 block">The Private Selection</span>
+              <h3 className="text-6xl md:text-9xl font-serif text-stone-900 tracking-tighter leading-none italic">The Sommelier List</h3>
+            </motion.div>
             
-            <div className="flex flex-wrap justify-center gap-8 border-b border-stone-200 pb-8 w-full">
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="flex flex-nowrap overflow-x-auto no-scrollbar gap-4 md:gap-8 border-b border-stone-200 pb-1 w-full"
+            >
               {Object.values(MENU_CATEGORIES).map(category => (
                 <button
                   key={category}
                   onClick={() => setActiveTab(category)}
-                  className={`text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 relative py-2 ${
+                  className={`text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-500 relative py-3 shrink-0 whitespace-nowrap ${
                     activeTab === category ? 'text-amber-900' : 'text-stone-400 hover:text-stone-900'
                   }`}
                 >
                   {category}
                   {activeTab === category && (
-                    <motion.div layoutId="tab-underline" className="absolute -bottom-8 left-0 right-0 h-1 bg-amber-900" />
+                    <motion.div layoutId="tab-underline" className="absolute -bottom-1 left-0 right-0 h-0.5 bg-amber-900" />
                   )}
                 </button>
               ))}
-            </div>
+            </motion.div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-stone-200 border border-stone-200 rounded-[3rem] overflow-hidden shadow-2xl">
+          <motion.div 
+            layout
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-3 md:grid-cols-2 bg-stone-100 gap-px border border-stone-200 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] rounded-[3rem] overflow-hidden"
+          >
             <AnimatePresence mode="wait">
               {MENU_DATA[activeTab].map((item, idx) => (
-                <motion.div
-                  key={`${activeTab}-${idx}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.05 }}
-                  className="bg-white p-12 hover:bg-stone-50 transition-colors group relative"
-                >
-                  <div className="flex flex-col h-full justify-between gap-12">
-                    <div>
-                      <div className="flex items-center gap-2 mb-4">
-                        <Star size={10} className="text-amber-900" />
-                        <span className="text-[9px] font-black uppercase tracking-[0.3em] text-amber-900/50">
-                          {item.tag || 'Classic'}
-                        </span>
-                      </div>
-                      <h4 className="text-2xl font-serif text-stone-900 mb-2">{item.en}</h4>
-                      <p className="text-stone-400 font-bold text-xs tracking-widest mb-4 uppercase" dir="rtl">{item.ar}</p>
-                      {item.desc && <p className="text-stone-400 text-xs font-medium leading-relaxed italic">{item.desc}</p>}
-                    </div>
-                    <div className="flex justify-between items-end border-t border-stone-100 pt-8">
-                      <span className="text-stone-900 font-serif text-xl">{item.price}</span>
-                      <motion.button 
-                        whileHover={{ scale: 1.1 }}
-                        className="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center group-hover:bg-amber-900 group-hover:text-white transition-all"
-                      >
-                         <ArrowRight size={14} />
-                      </motion.button>
-                    </div>
-                  </div>
-                </motion.div>
+                <MenuItem key={`${activeTab}-${idx}`} item={item} idx={idx} />
               ))}
             </AnimatePresence>
-          </div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="mt-20 text-center"
+          >
+            <p className="text-[10px] font-black uppercase tracking-[0.6em] text-stone-300">
+              * Prices are subject to variation based on seasonal market availability
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Contact - The Black Label Experience */}
-      <section id="order" className="py-40 bg-stone-950 text-white relative overflow-hidden">
+      {/* Contact Section */}
+      <section id="order" className="py-32 md:py-44 bg-stone-950 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-12 gap-24 items-center">
             <div className="lg:col-span-7">
                <span className="text-amber-500 font-bold tracking-[0.5em] uppercase text-[10px] mb-8 block">Private Catering</span>
-               <h3 className="text-6xl md:text-9xl font-serif leading-[0.9] tracking-tighter mb-12">
-                 Reserved <br /><span className="italic text-amber-500">Only for You</span>
+               <h3 className="text-6xl md:text-[8rem] font-serif leading-[0.9] tracking-tighter mb-12 italic">
+                 Reserved <br /><span className="text-amber-500 not-italic">Only for You</span>
                </h3>
                
-               <div className="flex flex-wrap gap-12 mt-20">
+               <div className="flex flex-wrap gap-16 mt-20">
                   <div className="space-y-4">
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Location</p>
-                    <p className="text-xl font-serif">Al Shorouk, Madinaty</p>
+                    <p className="text-2xl font-serif">Al Shorouk, Madinaty</p>
                   </div>
                   <div className="space-y-4">
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Response time</p>
-                    <p className="text-xl font-serif">Under 60 Mins</p>
+                    <p className="text-2xl font-serif">Under 60 Mins</p>
                   </div>
                </div>
 
                <MagneticButton 
                  onClick={handleWhatsApp}
-                 className="mt-20 bg-white text-stone-950 px-12 py-8 rounded-[2rem] font-black text-xs uppercase tracking-[0.4em] flex items-center gap-6 hover:bg-amber-500 transition-all active:scale-95"
+                 className="mt-20 bg-white text-stone-950 px-12 py-8 rounded-[2.5rem] font-black text-xs uppercase tracking-[0.4em] flex items-center gap-6 hover:bg-amber-500 transition-all active:scale-95 shadow-2xl shadow-white/5"
                >
-                 Open WhatsApp <MessageCircle size={24} />
+                 Open WhatsApp <MessageCircle size={28} />
                </MagneticButton>
             </div>
 
             <div className="lg:col-span-4 lg:col-start-9">
                <div className="dark-glass rounded-[3rem] p-12 space-y-12">
-                  <h4 className="text-2xl font-serif italic text-amber-500">The 3 Pillars</h4>
-                  <div className="space-y-10">
+                  <h4 className="text-3xl font-serif italic text-amber-500">The 3 Pillars</h4>
+                  <div className="space-y-12">
                     {[
                       { num: "01", title: "Absolute Freshness", desc: "Ingredients sourced daily for each specific order." },
                       { num: "02", title: "Slow Heritage", desc: "No shortcuts. No mass production. Just care." },
                       { num: "03", title: "Premium Cuts", desc: "Only the highest quality proteins and produce." }
                     ].map((item, i) => (
-                      <div key={i} className="space-y-2 group">
-                        <span className="text-xs font-black text-amber-500/40 group-hover:text-amber-500 transition-colors">{item.num}</span>
-                        <h5 className="font-bold text-lg">{item.title}</h5>
-                        <p className="text-white/40 text-xs font-medium leading-relaxed">{item.desc}</p>
+                      <div key={i} className="space-y-3 group">
+                        <span className="text-xs font-black text-amber-500/40 group-hover:text-amber-500 transition-colors tracking-widest">{item.num}</span>
+                        <h5 className="font-bold text-xl tracking-wide">{item.title}</h5>
+                        <p className="text-white/40 text-base font-medium leading-relaxed">{item.desc}</p>
                       </div>
                     ))}
                   </div>
@@ -523,29 +513,29 @@ export default function App() {
         </div>
       </section>
 
-      {/* Simple Footer */}
-      <footer className="py-20 bg-[#faf8f5] border-t border-stone-200">
+      {/* Footer */}
+      <footer className="py-24 bg-[#faf8f5] border-t border-stone-200">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-stone-900 rounded flex items-center justify-center text-white">
-              <ChefHat size={16} />
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-stone-900 rounded-xl flex items-center justify-center text-white">
+              <ChefHat size={20} />
             </div>
             <span className="text-[10px] font-black tracking-[0.4em] uppercase text-stone-900">Haiam's &copy; 2026</span>
           </div>
           
-          <div className="flex gap-12 text-[9px] font-black uppercase tracking-[0.3em] text-stone-400">
+          <div className="flex gap-12 text-[10px] font-black uppercase tracking-[0.3em] text-stone-400">
             <a href="https://instagram.com/haiamcatering" className="hover:text-amber-900 transition-colors">Instagram</a>
             <a href="#" className="hover:text-amber-900 transition-colors">WhatsApp</a>
             <a href="#" className="hover:text-amber-900 transition-colors">Gallery</a>
           </div>
 
-          <div className="text-[9px] font-black uppercase tracking-[0.3em] text-amber-900/40">
+          <div className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-900/40 italic">
             Handcrafted with love
           </div>
         </div>
       </footer>
       
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
@@ -556,7 +546,7 @@ export default function App() {
           >
             <div className="flex justify-between items-center">
                <span className="text-[10px] font-black tracking-[0.4em] uppercase opacity-40">Navigation</span>
-               <button onClick={() => setIsMenuOpen(false)} className="p-4 bg-white/5 rounded-full"><X /></button>
+               <button onClick={() => setIsMenuOpen(false)} className="p-4 bg-white/5 rounded-full"><X size={28} /></button>
             </div>
             <div className="flex flex-col gap-8">
               {['story', 'menu', 'order'].map((item, i) => (
@@ -567,15 +557,15 @@ export default function App() {
                   transition={{ delay: i * 0.1 }}
                   href={`#${item}`} 
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-6xl font-serif italic hover:text-amber-500 transition-colors"
+                  className="text-6xl font-serif italic hover:text-amber-500 transition-colors uppercase tracking-tighter"
                 >
                   {item}
                 </motion.a>
               ))}
             </div>
             <div className="pt-12 border-t border-white/5">
-              <p className="text-xs font-bold text-white/40 mb-4 uppercase tracking-[0.2em]">Contact Us</p>
-              <p className="text-2xl font-serif">+20 106 044 7418</p>
+              <p className="text-[10px] font-bold text-white/40 mb-4 uppercase tracking-[0.2em]">Contact Us</p>
+              <p className="text-3xl font-serif">+20 106 044 7418</p>
             </div>
           </motion.div>
         )}
