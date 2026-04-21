@@ -6,16 +6,23 @@
 }
 
 :root {
-  --color-primary: #78350f; /* amber-900 */
-  --color-accent: #b45309; /* amber-700 */
+  --color-primary: #78350f;
+  --color-accent: #b45309;
   --color-bg: #faf8f5;
 }
 
 body {
   margin: 0;
   background-color: var(--color-bg);
-  color: #1c1917; /* stone-900 */
+  color: #1c1917;
   overflow-x: hidden;
+  cursor: none; /* Hide default cursor for custom one */
+}
+
+@media (max-width: 1024px) {
+  body {
+    cursor: auto;
+  }
 }
 
 /* Grainy texture overlay */
@@ -24,17 +31,68 @@ body {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  opacity: 0.03;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Custom selection */
-::selection {
-  background: var(--color-accent);
-  color: white;
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark-glass {
+  background: rgba(28, 25, 23, 0.8);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom Cursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.1s ease;
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease-out, opacity 0.3s ease;
+}
+
+/* Hide cursor on mobile */
+@media (max-width: 1024px) {
+  .cursor-dot, .cursor-outline {
+    display: none;
+  }
 }
 
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;
+}
+
+/* Hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
