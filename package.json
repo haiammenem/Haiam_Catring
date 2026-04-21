@@ -1,12 +1,11 @@
 {
-  "name": "omar-monem-portfolio",
+  "name": "haiam-catering",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run generate-images && vite",
-    "build": "npm run generate-images && vite build",
-    "generate-images": "node scripts/scanImages.js",
+    "dev": "vite",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
