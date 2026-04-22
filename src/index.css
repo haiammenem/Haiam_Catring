@@ -17,13 +17,11 @@ body {
   background-color: var(--color-bg);
   color: #1c1917;
   overflow-x: hidden;
-  cursor: none;
   font-size: 17px; /* Recalibrated base size */
 }
 
 @media (max-width: 1024px) {
   body {
-    cursor: auto;
     font-size: 16px;
   }
 }
@@ -58,38 +56,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Custom Cursor */
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-primary);
-  position: fixed;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-  transition: transform 0.1s ease;
-}
 
-.cursor-outline {
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--color-primary);
-  position: fixed;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.15s ease-out, opacity 0.3s ease;
-}
-
-@media (max-width: 1024px) {
-  .cursor-dot, .cursor-outline {
-    display: none;
-  }
-}
 
 html {
   scroll-behavior: smooth;

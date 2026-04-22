@@ -29,54 +29,6 @@ const MENU_CATEGORIES = {
   FISH: 'Fish & Seafood',
 };
 
-const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isClicking, setIsClicking] = useState(false);
-
-  useEffect(() => {
-    const onMouseMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const onMouseOver = (e) => {
-      if (e.target.closest('button, a, .interactive')) setIsHovering(true);
-      else setIsHovering(false);
-    };
-
-    const onMouseDown = () => setIsClicking(true);
-    const onMouseUp = () => setIsClicking(false);
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseover', onMouseOver);
-    window.addEventListener('mousedown', onMouseDown);
-    window.addEventListener('mouseup', onMouseUp);
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseover', onMouseOver);
-      window.removeEventListener('mousedown', onMouseDown);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
-  }, []);
-
-  return (
-    <>
-      <div 
-        className="cursor-dot" 
-        style={{ transform: `translate3d(${position.x - 4}px, ${position.y - 4}px, 0) scale(${isClicking ? 0.5 : 1})` }} 
-      />
-      <div 
-        className="cursor-outline" 
-        style={{ 
-          transform: `translate3d(${position.x - 20}px, ${position.y - 20}px, 0) scale(${isHovering ? 1.5 : 1})`,
-          opacity: isHovering ? 0.3 : 1
-        }} 
-      />
-    </>
-  );
-};
-
 const MagneticButton = ({ children, className, onClick }) => {
   const ref = useRef(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -260,7 +212,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#faf8f5] font-sans selection:bg-amber-900 selection:text-white overflow-x-hidden">
-      <CustomCursor />
       <div className="grain-overlay" />
       
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
