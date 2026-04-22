@@ -24,7 +24,7 @@ export const MENU_DATA = {
     { en: "Orange Duck", ar: "بط بالبرتقال", price: "700 - 1000 LE", tag: "Royal", image: "/menu/orange-duck.jpg" },
     { en: "Stuffed Pigeon", ar: "حمام محشي", price: "400 LE", tag: "Royal" },
     { en: "Roasted Turkey", ar: "ديك رومي", price: "Start 1500 LE", tag: "Royal" },
-    { en: "Smoked Turkey", ar: "تركي مدخن", price: "Per Kg", tag: "Royal" },
+    { en: "Smoked Turkey", ar: "تركي مدخن", price: "Per Kg", tag: "Royal" , desc: "Smoked turkey, perfect for sandwiches and platters" },
     { en: "Roasted Chicken Breast", ar: "صدور روستو", price: "400 LE" },
     { en: "Grilled Chicken (4 Flavors)", ar: "فراخ مشوية", price: "400 LE" },
     { en: "Chicken Tray", ar: "فراخ صينية", price: "450 LE" },
