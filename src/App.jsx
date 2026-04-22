@@ -134,7 +134,7 @@ const MenuItem = ({ item, idx }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.6, delay: idx * 0.03, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white p-6 md:p-8 group relative overflow-hidden transition-all duration-700 hover:z-10"
+      className="bg-white p-6 md:p-8 group relative overflow-hidden transition-all duration-700 hover:z-10 flex flex-col"
     >
       {/* Background Reveal Effect */}
       <div className="absolute inset-0 bg-stone-50/50 -translate-x-full group-hover:translate-x-0 transition-transform duration-1000 ease-[0.16,1,0.3,1]" />
@@ -144,7 +144,23 @@ const MenuItem = ({ item, idx }) => {
         {(idx + 1).toString().padStart(2, '0')}
       </span>
 
-      <div className="relative z-10 flex flex-col h-full justify-between gap-10">
+      {/* Item Image */}
+      {item.image && (
+        <div className="relative mb-8 aspect-video overflow-hidden rounded-2xl z-10">
+          <motion.img 
+            src={item.image} 
+            alt={item.en}
+            className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.parentElement.style.display = 'none';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        </div>
+      )}
+
+      <div className="relative z-10 flex flex-col flex-grow justify-between gap-10">
         <div className="space-y-8">
           <div className="flex justify-between items-start gap-4">
             <div className="space-y-4">

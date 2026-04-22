@@ -21,7 +21,7 @@ export const MENU_CATEGORIES = {
 
 export const MENU_DATA = {
   [MENU_CATEGORIES.POULTRY]: [
-    { en: "Orange Duck", ar: "بط بالبرتقال", price: "700 - 1000 LE", tag: "Royal" },
+    { en: "Orange Duck", ar: "بط بالبرتقال", price: "700 - 1000 LE", tag: "Royal", image: "/menu/orange-duck.jpg" },
     { en: "Stuffed Pigeon", ar: "حمام محشي", price: "400 LE", tag: "Royal" },
     { en: "Roasted Turkey", ar: "ديك رومي", price: "Start 1500 LE", tag: "Royal" },
     { en: "Smoked Turkey", ar: "تركي مدخن", price: "Per Kg", tag: "Royal" },
@@ -37,7 +37,7 @@ export const MENU_DATA = {
     { en: "Chicken Roll", ar: "تشيكن رول", price: "410 LE" },
   ],
   [MENU_CATEGORIES.MEAT]: [
-    { en: "Grilled Kofta", ar: "كفتة مشوية", price: "750 LE", tag: "Grill" },
+    { en: "Grilled Kofta", ar: "كفتة مشوية", price: "750 LE", tag: "Grill", image: "/menu/kofta.jpg" },
     { en: "Tarab", ar: "طرب", price: "750 LE", tag: "Grill" },
     { en: "Grilled Steak", ar: "ستيك مشوي", price: "750 LE", tag: "Grill" },
     { en: "Lamb Chops", ar: "ريش", price: "1000 LE", tag: "Grill" },
@@ -56,7 +56,7 @@ export const MENU_DATA = {
   ],
   [MENU_CATEGORIES.TRAYS]: [
     { en: "Roqaq (Meat & Ghee)", ar: "رقاق باللحمة", price: "450 LE" },
-    { en: "Macarona Béchamel", ar: "مكرونة بشاميل", price: "450 LE" },
+    { en: "Macarona Béchamel", ar: "مكرونة بشاميل", price: "450 LE", image: "/menu/macarona.jpg" },
     { en: "Macarona Sausage", ar: "مكرونة بالسجق", price: "450 LE" },
     { en: "Lasagna", ar: "لازانيا", price: "450 LE" },
     { en: "Negresco (Chicken)", ar: "نجرسكو", price: "450 LE" },
@@ -75,7 +75,7 @@ export const MENU_DATA = {
     { en: "Fresh Salads", ar: "السلطات", price: "Start 50 LE", desc: "Green Salad, Tahina, Baba Ghanoush" },
     { en: "Fatta (Meat & Vinegar)", ar: "فتة لحمة", price: "500 LE", tag: "Special" },
     { en: "Rice w/ Nuts", ar: "أرز بالخلطة", price: "250 LE" },
-    { en: "Basmati Rice", ar: "أرز بسمتي", price: "150 LE" },
+    { en: "Basmati Rice", ar: "أرز بسمتي", price: "150 LE", image: "/menu/rice.jpg" },
     { en: "Meammar Rice (Cream)", ar: "أرز معمر", price: "170 LE" },
     { en: "Meammar (w/ Pigeon/Meat)", ar: "أرز معمر باللحم", price: "Ask Price" },
     { en: "Frik Tagine (Cream)", ar: "طاجن فريك", price: "180 LE" },
@@ -86,7 +86,7 @@ export const MENU_DATA = {
   [MENU_CATEGORIES.Fish]: [
     { en: "Grilled Sea Bream", ar: "سمك دنيس مشوي", price: "Per Kg", tag: "Fresh" },
     { en: "Sea Bass (Singari)", ar: "سمك قاروص سنجاري", price: "Per Kg", tag: "Special" },
-    { en: "Grilled Shrimp", ar: "جمبري مشوي", price: "450 - 900 LE", tag: "Premium" },
+    { en: "Grilled Shrimp", ar: "جمبري مشوي", price: "450 - 900 LE", tag: "Premium", image: "/menu/shrimp.jpg" },
     { en: "Fried Calamari", ar: "كاليماري مقلي", price: "400 LE" },
     { en: "Seafood Pasta (White)", ar: "مكرونة سي فود", price: "350 LE" },
     { en: "Fish Sayadiya Rice", ar: "أرز صيادية", price: "100 LE" },
