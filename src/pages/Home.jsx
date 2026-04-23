@@ -18,16 +18,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { supabase } from '../lib/supabase';
-
-// We'll still keep CATEGORIES for the tabs
-const MENU_CATEGORIES = {
-  POULTRY: 'Chicken & Poultry',
-  MEAT: 'Grills & Tagines',
-  TRAYS: 'Oven Trays & Sides',
-  RICE: 'Rice & Mahashi',
-  FISH: 'Fish & Seafood',
-};
+import { supabase, formatPortion } from '../lib/supabase';
 
 const MagneticButton = ({ children, className, onClick }) => {
   const ref = useRef(null);
@@ -137,7 +128,9 @@ const MenuItem = ({ item, idx }) => {
             </div>
             
             <div className="flex flex-col items-end shrink-0">
-              <span className="font-serif text-2xl text-amber-900 group-hover:scale-110 transition-transform duration-500 origin-right">{item.price}</span>
+              <span className="font-serif text-2xl text-amber-900 group-hover:scale-110 transition-transform duration-500 origin-right">
+                {item.price} {item.portion_type && <span className="text-sm">/ {formatPortion(item)}</span>}
+              </span>
               <div className="h-px w-6 bg-stone-200 mt-2 group-hover:w-full transition-all duration-700" />
             </div>
           </div>
@@ -178,7 +171,8 @@ const MenuItem = ({ item, idx }) => {
 
 export default function Home() {
   const [menuItems, setMenuItems] = useState([]);
-  const [activeTab, setActiveTab] = useState(MENU_CATEGORIES.POULTRY);
+  const [categories, setCategories] = useState([]);
+  const [activeTab, setActiveTab] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -187,20 +181,41 @@ export default function Home() {
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   useEffect(() => {
-    fetchMenuItems();
+    fetchData();
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  async function fetchMenuItems() {
+  async function fetchData() {
     setLoading(true);
-    const { data, error } = await supabase
+    
+    // Fetch categories
+    const { data: catData, error: catError } = await supabase
+      .from('categories')
+      .select('*')
+      .order('order', { ascending: true });
+      
+    if (catError) {
+      console.error('Error fetching categories:', catError);
+    } else {
+      setCategories(catData || []);
+      if (catData && catData.length > 0) {
+        setActiveTab(catData[0].id);
+      }
+    }
+
+    // Fetch menu items
+    const { data: itemData, error: itemError } = await supabase
       .from('menu_items')
       .select('*');
     
-    if (error) console.error('Error fetching:', error);
-    else setMenuItems(data);
+    if (itemError) {
+      console.error('Error fetching items:', itemError);
+    } else {
+      setMenuItems(itemData || []);
+    }
+    
     setLoading(false);
   }
 
@@ -208,7 +223,7 @@ export default function Home() {
     window.open('https://wa.me/201060447418', '_blank');
   };
 
-  const filteredItems = menuItems.filter(item => item.category === activeTab);
+  const filteredItems = menuItems.filter(item => item.category_id === activeTab);
 
   return (
     <div className="min-h-screen bg-[#faf8f5] font-sans selection:bg-amber-900 selection:text-white overflow-x-hidden">
@@ -404,16 +419,16 @@ export default function Home() {
               viewport={{ once: true }}
               className="flex flex-nowrap overflow-x-auto no-scrollbar gap-4 md:gap-8 border-b border-stone-200 pb-1 w-full"
             >
-              {Object.values(MENU_CATEGORIES).map(category => (
+              {categories.map(category => (
                 <button
-                  key={category}
-                  onClick={() => setActiveTab(category)}
+                  key={category.id}
+                  onClick={() => setActiveTab(category.id)}
                   className={`text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-500 relative py-3 shrink-0 whitespace-nowrap ${
-                    activeTab === category ? 'text-amber-900' : 'text-stone-400 hover:text-stone-900'
+                    activeTab === category.id ? 'text-amber-900' : 'text-stone-400 hover:text-stone-900'
                   }`}
                 >
-                  {category}
-                  {activeTab === category && (
+                  {category.name_en}
+                  {activeTab === category.id && (
                     <motion.div layoutId="tab-underline" className="absolute -bottom-1 left-0 right-0 h-0.5 bg-amber-900" />
                   )}
                 </button>
