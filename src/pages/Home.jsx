@@ -89,7 +89,7 @@ const handleWhatsApp = (cart = []) => {
   let message = "";
 
   if (cart.length > 0) {
-    message = "مرحبا! اريد طلب:\n";
+    message = "Hello! I'd like to place an order:\n";
     let totalPrice = 0;
 
     cart.forEach((item, index) => {
@@ -102,8 +102,8 @@ const handleWhatsApp = (cart = []) => {
     });
 
     message += `\n------------------\n`;
-    message += `اجمالي عدد القطع: ${cart.reduce((sum, item) => sum + item.quantity, 0)}\n`;
-    message += `اجمالي الطلب: *${totalPrice} EGP*`;
+    message += `Total pieces: ${cart.reduce((sum, item) => sum + item.quantity, 0)}\n`;
+    message += `Total price: *${totalPrice}EGP*`;
   } else {
     message = "Hello! I am interested in your catering services.";
   }
@@ -330,7 +330,7 @@ export default function Home() {
   }, 0);
 
   const filteredItems = menuItems.filter(
-    (item) => item.category_id === activeTab,
+    (item) => item.category_id === activeTab && item.is_active !== false,
   );
 
   return (

@@ -45,7 +45,8 @@ export default function Admin() {
     portion_type: null,
     weight_value: '',
     weight_unit: 'kg',
-    size: null
+    size: null,
+    is_active: true
   });
   const [editingItemImage, setEditingItemImage] = useState(null);
 
@@ -133,7 +134,8 @@ export default function Admin() {
       portion_type: newItem.portion_type,
       weight_value: newItem.portion_type === 'weight' ? parseInt(newItem.weight_value) : null,
       weight_unit: newItem.portion_type === 'weight' ? newItem.weight_unit : null,
-      size: newItem.portion_type === 'size' ? newItem.size : null
+      size: newItem.portion_type === 'size' ? newItem.size : null,
+      is_active: newItem.is_active
     };
 
     const { error } = await supabase.from('menu_items').insert([itemData]);
@@ -150,7 +152,8 @@ export default function Admin() {
         portion_type: null,
         weight_value: '',
         weight_unit: 'kg',
-        size: null
+        size: null,
+        is_active: true
       });
       fetchMenuItems();
     }
@@ -204,7 +207,8 @@ export default function Admin() {
       portion_type: editingItem.portion_type,
       weight_value: editingItem.portion_type === 'weight' ? parseInt(editingItem.weight_value) : null,
       weight_unit: editingItem.portion_type === 'weight' ? editingItem.weight_unit : null,
-      size: editingItem.portion_type === 'size' ? editingItem.size : null
+      size: editingItem.portion_type === 'size' ? editingItem.size : null,
+      is_active: editingItem.is_active
     };
 
     const { error } = await supabase.from('menu_items').update(updateData).eq('id', editingItem.id);
@@ -519,6 +523,31 @@ export default function Admin() {
                       )}
                     </div>
                   </div>
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={async () => {
+                        const { error } = await supabase
+                          .from('menu_items')
+                          .update({ is_active: !item.is_active })
+                          .eq('id', item.id);
+                        if (error) alert(error.message);
+                        else fetchMenuItems();
+                      }}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                        item.is_active ? 'bg-amber-900' : 'bg-stone-200'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          item.is_active ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-stone-400">
+                      {item.is_active ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+
                   <div className="flex gap-2 group-hover:opacity-100 transition-opacity">
                     <button 
                       onClick={() => setEditingItem(item)}
@@ -732,6 +761,30 @@ export default function Admin() {
                 value={editingItem.description || ''}
                 onChange={e => setEditingItem({...editingItem, description: e.target.value})}
               />
+
+              <div className="flex items-center gap-4 p-4 bg-stone-50 rounded-2xl">
+                <button
+                  type="button"
+                  onClick={() => setEditingItem({...editingItem, is_active: !editingItem.is_active})}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                    editingItem.is_active ? 'bg-amber-900' : 'bg-stone-200'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      editingItem.is_active ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-stone-900">
+                    Item Visibility
+                  </span>
+                  <span className="text-[9px] text-stone-400 uppercase tracking-widest font-bold">
+                    {editingItem.is_active ? 'Visible on Website' : 'Hidden from Website'}
+                  </span>
+                </div>
+              </div>
               <div className="flex gap-4">
                 <button 
                   type="submit"

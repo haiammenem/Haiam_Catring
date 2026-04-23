@@ -28,7 +28,8 @@ ADD COLUMN category_id uuid REFERENCES public.categories(id) ON DELETE SET NULL,
 ADD COLUMN portion_type text CHECK (portion_type IN ('weight', 'size')) DEFAULT NULL,
 ADD COLUMN weight_value integer DEFAULT NULL,
 ADD COLUMN weight_unit text CHECK (weight_unit IN ('kg', 'g')) DEFAULT NULL,
-ADD COLUMN size text CHECK (size IN ('s', 'm', 'l')) DEFAULT NULL;
+ADD COLUMN size text CHECK (size IN ('s', 'm', 'l')) DEFAULT NULL,
+ADD COLUMN is_active boolean DEFAULT true;
 
 -- 4. Migrate existing category strings to IDs (map text categories to UUIDs)
 -- Note: You may need to get actual UUIDs from the categories table and update this
