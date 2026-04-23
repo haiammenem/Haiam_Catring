@@ -175,7 +175,8 @@ const MenuItem = ({ item, idx, onAddToCart, cartItem }) => {
 
             <div className="flex flex-col items-end shrink-0">
               <span className="font-serif text-2xl text-amber-900 group-hover:scale-110 transition-transform duration-500 origin-right">
-                {item.price}{" "}
+                {item.price}
+                {" EGP"}
                 {item.portion_type && (
                   <span className="text-sm">/ {formatPortion(item)}</span>
                 )}
@@ -478,18 +479,18 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="aspect-[3/4] bg-stone-100 rounded-[3rem] overflow-hidden relative z-10 shadow-2xl"
               >
-                <div className="absolute inset-0 bg-stone-900/5 mix-blend-multiply" />
-                <div className="w-full h-full flex items-center justify-center opacity-10">
-                  <ChefHat size={140} />
+                <div className="absolute inset-0 bg-stone-100/5 mix-blend-multiply" />
+                <div className="w-full h-full flex items-center justify-center ">
+                  <img src="/homeiamge.png" alt="" className="w-full h-full " />
                 </div>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="absolute -bottom-8 -right-8 w-56 h-56 bg-amber-900 rounded-[2.5rem] z-20 p-8 text-white flex flex-col justify-end shadow-xl"
+                className="absolute -bottom-8 -right-8 w-45 h-45 bg-amber-900 rounded-[2.5rem] z-20 p-8 text-white flex flex-col justify-end shadow-xl"
               >
-                <Quote className="mb-4 opacity-50" size={32} />
+                <Quote className="mb-4 opacity-50" size={22} />
                 <p className="text-lg font-bold leading-relaxed italic">
                   Making home taste like home again.
                 </p>
