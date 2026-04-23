@@ -272,7 +272,7 @@ export default function Admin() {
                       )}
                     </div>
                   </div>
-                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-2 group-hover:opacity-100 transition-opacity">
                     <button 
                       onClick={() => setEditingItem(item)}
                       className="p-2 hover:bg-amber-50 text-amber-900 rounded-lg transition-colors"
