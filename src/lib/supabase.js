@@ -7,7 +7,7 @@ console.log('--- Supabase Debug ---')
 console.log('URL:', supabaseUrl)
 console.log('Key Length:', supabaseAnonKey?.length)
 console.log('Key starts with:', supabaseAnonKey?.substring(0, 10))
-console.log('----------------------')
+console.log('----------------------') 
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables. Check your .env file.')
@@ -134,7 +134,7 @@ export async function addCategory(name_en, name_ar) {
       .insert([{
         name_en,
         name_ar,
-        order: Date.now() // Use timestamp for ordering new items
+        order: Math.floor(Date.now() / 1000) // Use timestamp in seconds for ordering new items (fits in integer)
       }])
       .select()
     
