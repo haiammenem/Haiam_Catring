@@ -5,13 +5,15 @@ import {
   Plus, 
   Trash2, 
   Edit2, 
-  Save, 
   X, 
   LogOut, 
   ChevronDown,
   Image as ImageIcon,
   Loader2,
-  Settings
+  Settings,
+  Search,
+  Filter,
+  ChevronUp
 } from 'lucide-react';
 
 export default function Admin() {
@@ -49,6 +51,13 @@ export default function Admin() {
     is_active: true
   });
   const [editingItemImage, setEditingItemImage] = useState(null);
+  
+  // Search & Filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterCategory, setFilterCategory] = useState('all');
+  const [filterPortion, setFilterPortion] = useState('all');
+  const [isFormVisible, setIsFormVisible] = useState(true); // For mobile toggle
+
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -92,6 +101,22 @@ export default function Admin() {
     if (error) console.error('Error fetching:', error);
     else setMenuItems(data);
   }
+
+  // Filter items logic
+  const filteredDisplayItems = menuItems.filter(item => {
+    const matchesSearch = 
+      item.en.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      item.ar.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCategory = filterCategory === 'all' || item.category_id === filterCategory;
+    
+    const matchesPortion = filterPortion === 'all' || 
+      (filterPortion === 'standard' && !item.portion_type) ||
+      item.portion_type === filterPortion;
+    
+    return matchesSearch && matchesCategory && matchesPortion;
+  });
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -353,12 +378,23 @@ export default function Admin() {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid lg:grid-cols-12 gap-12">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-12">
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-12">
           {/* Add Item Form */}
           <div className="lg:col-span-4">
-            <div className="bg-white p-8 rounded-[2rem] shadow-xl shadow-stone-200/40 border border-stone-100 sticky top-32">
-              <h2 className="text-2xl font-serif text-stone-900 mb-8 italic">New Menu Item</h2>
+            <div className="bg-white rounded-[2rem] shadow-xl shadow-stone-200/40 border border-stone-100 sticky top-32 overflow-hidden">
+              <button 
+                onClick={() => setIsFormVisible(!isFormVisible)}
+                className="w-full px-8 py-6 flex justify-between items-center bg-white lg:cursor-default"
+              >
+                <h2 className="text-2xl font-serif text-stone-900 italic">New Menu Item</h2>
+                <div className="lg:hidden p-2 bg-stone-50 rounded-lg">
+                  {isFormVisible ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                </div>
+              </button>
+              
+              <div className={`${isFormVisible ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'} lg:max-h-none lg:opacity-100 transition-all duration-500 ease-in-out px-8 pb-8`}>
+
               <form onSubmit={handleAddItem} className="space-y-5">
                 <input 
                   placeholder="English Name"
@@ -481,19 +517,70 @@ export default function Admin() {
                   )}
                 </button>
               </form>
+              </div>
             </div>
           </div>
 
+
           {/* List Items */}
           <div className="lg:col-span-8 space-y-6">
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                <h2 className="text-3xl font-serif text-stone-900 italic">Live Menu Items</h2>
-               <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest">{menuItems.length} Total</span>
+               <div className="flex items-center gap-4">
+                 <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest bg-white px-4 py-2 rounded-full border border-stone-100 shadow-sm">
+                   {filteredDisplayItems.length} {filteredDisplayItems.length === menuItems.length ? 'Total' : 'Found'}
+                 </span>
+               </div>
+            </div>
+
+            {/* Filter Bar */}
+            <div className="bg-white p-4 md:p-6 rounded-[2rem] border border-stone-100 shadow-xl shadow-stone-200/20 mb-8 space-y-4">
+              <div className="relative">
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-stone-300" size={18} />
+                <input 
+                  type="text"
+                  placeholder="Search items by name..."
+                  className="w-full pl-14 pr-6 py-4 bg-stone-50 rounded-2xl outline-none focus:ring-2 focus:ring-amber-900/10 transition-all"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-center gap-3 bg-stone-50 px-5 py-3 rounded-2xl">
+                  <Filter size={16} className="text-stone-400" />
+                  <select 
+                    className="bg-transparent w-full outline-none text-xs font-bold uppercase tracking-widest text-stone-600 appearance-none cursor-pointer"
+                    value={filterCategory}
+                    onChange={e => setFilterCategory(e.target.value)}
+                  >
+                    <option value="all">All Categories</option>
+                    {categories.map(cat => (
+                      <option key={cat.id} value={cat.id}>{cat.name_en}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="flex items-center gap-3 bg-stone-50 px-5 py-3 rounded-2xl">
+                  <ChevronDown size={16} className="text-stone-400" />
+                  <select 
+                    className="bg-transparent w-full outline-none text-xs font-bold uppercase tracking-widest text-stone-600 appearance-none cursor-pointer"
+                    value={filterPortion}
+                    onChange={e => setFilterPortion(e.target.value)}
+                  >
+                    <option value="all">All Portions</option>
+                    <option value="standard">Standard Only</option>
+                    <option value="weight">By Weight</option>
+                    <option value="size">By Size</option>
+                  </select>
+                </div>
+              </div>
             </div>
             
             <div className="grid gap-4">
-              {menuItems.map(item => (
-                <div key={item.id} className="bg-white p-6 rounded-2xl border border-stone-100 flex items-center gap-6 group hover:shadow-lg transition-all">
+              {filteredDisplayItems.length > 0 ? filteredDisplayItems.map(item => (
+                <div key={item.id} className="bg-white p-4 md:p-6 rounded-2xl border border-stone-100 flex flex-col sm:flex-row items-start sm:items-center gap-6 group hover:shadow-lg transition-all relative">
+
                   <div className="w-16 h-16 rounded-xl bg-stone-50 flex items-center justify-center overflow-hidden shrink-0">
                     {item.image ? (
                       <img src={item.image} alt={item.en} className="w-full h-full object-cover" />
@@ -565,7 +652,18 @@ export default function Admin() {
                     </button>
                   </div>
                 </div>
-              ))}
+              )) : (
+                <div className="py-20 text-center bg-white rounded-3xl border border-stone-100 border-dashed">
+                  <Search size={40} className="mx-auto text-stone-200 mb-4" />
+                  <p className="text-stone-400 font-serif italic text-xl">No items match your filters</p>
+                  <button 
+                    onClick={() => {setSearchQuery(''); setFilterCategory('all'); setFilterPortion('all');}}
+                    className="mt-4 text-xs font-black uppercase tracking-widest text-amber-900 hover:underline"
+                  >
+                    Clear all filters
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -573,15 +671,16 @@ export default function Admin() {
 
       {/* Category Manager Modal */}
       {showCategoryManager && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
           <div className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm" onClick={() => setShowCategoryManager(false)} />
-          <div className="relative bg-white w-full max-w-2xl rounded-[3rem] p-12 overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-serif text-stone-900 italic">Manage Categories</h2>
+          <div className="relative bg-white w-full max-w-2xl rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="flex justify-between items-center mb-6 md:mb-8">
+              <h2 className="text-2xl md:text-3xl font-serif text-stone-900 italic">Manage Categories</h2>
               <button onClick={() => setShowCategoryManager(false)} className="p-2 hover:bg-stone-100 rounded-full transition-colors">
-                <X size={24} className="text-stone-400" />
+                <X size={20} className="text-stone-400 md:w-6 md:h-6" />
               </button>
             </div>
+
 
             {categoryError && (
               <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm mb-6 flex justify-between items-center">
@@ -590,39 +689,44 @@ export default function Admin() {
               </div>
             )}
 
-            <form onSubmit={editingCategory ? handleUpdateCategory : handleAddCategory} className="mb-8 flex gap-4">
-              <input 
-                placeholder="English Name"
-                className="flex-1 px-5 py-3 bg-stone-50 rounded-xl outline-none focus:ring-1 ring-amber-900/20"
-                value={editingCategory ? editingCategory.name_en : newCategory.name_en}
-                onChange={e => editingCategory ? setEditingCategory({...editingCategory, name_en: e.target.value}) : setNewCategory({...newCategory, name_en: e.target.value})}
-                required
-              />
-              <input 
-                placeholder="Arabic Name"
-                dir="rtl"
-                className="flex-1 px-5 py-3 bg-stone-50 rounded-xl outline-none focus:ring-1 ring-amber-900/20 font-arabic"
-                value={editingCategory ? editingCategory.name_ar : newCategory.name_ar}
-                onChange={e => editingCategory ? setEditingCategory({...editingCategory, name_ar: e.target.value}) : setNewCategory({...newCategory, name_ar: e.target.value})}
-                required
-              />
-              <button 
-                type="submit"
-                disabled={categoryLoading}
-                className="bg-amber-900 hover:bg-stone-900 disabled:opacity-50 text-white px-6 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center min-w-[100px]"
-              >
-                {categoryLoading ? <Loader2 size={16} className="animate-spin" /> : (editingCategory ? 'Update' : 'Add')}
-              </button>
-              {editingCategory && (
+            <form onSubmit={editingCategory ? handleUpdateCategory : handleAddCategory} className="mb-6 md:mb-8 flex flex-col sm:flex-row gap-4">
+              <div className="flex-1 flex flex-col sm:flex-row gap-4">
+                <input 
+                  placeholder="English Name"
+                  className="flex-1 px-5 py-3 bg-stone-50 rounded-xl outline-none focus:ring-1 ring-amber-900/20"
+                  value={editingCategory ? editingCategory.name_en : newCategory.name_en}
+                  onChange={e => editingCategory ? setEditingCategory({...editingCategory, name_en: e.target.value}) : setNewCategory({...newCategory, name_en: e.target.value})}
+                  required
+                />
+                <input 
+                  placeholder="Arabic Name"
+                  dir="rtl"
+                  className="flex-1 px-5 py-3 bg-stone-50 rounded-xl outline-none focus:ring-1 ring-amber-900/20 font-arabic"
+                  value={editingCategory ? editingCategory.name_ar : newCategory.name_ar}
+                  onChange={e => editingCategory ? setEditingCategory({...editingCategory, name_ar: e.target.value}) : setNewCategory({...newCategory, name_ar: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="flex gap-2">
                 <button 
-                  type="button"
-                  onClick={() => setEditingCategory(null)}
-                  className="bg-stone-200 hover:bg-stone-300 text-stone-600 px-4 rounded-xl transition-all flex items-center justify-center"
+                  type="submit"
+                  disabled={categoryLoading}
+                  className="flex-1 sm:flex-none bg-amber-900 hover:bg-stone-900 disabled:opacity-50 text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center min-w-[100px]"
                 >
-                  <X size={16} />
+                  {categoryLoading ? <Loader2 size={16} className="animate-spin" /> : (editingCategory ? 'Update' : 'Add')}
                 </button>
-              )}
+                {editingCategory && (
+                  <button 
+                    type="button"
+                    onClick={() => setEditingCategory(null)}
+                    className="bg-stone-200 hover:bg-stone-300 text-stone-600 px-4 py-3 rounded-xl transition-all flex items-center justify-center"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+              </div>
             </form>
+
 
             <div className="flex-1 overflow-y-auto min-h-[300px] border border-stone-100 rounded-2xl bg-stone-50/50 p-2">
               {categories.map(cat => (
