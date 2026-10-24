@@ -2,11 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   ChefHat,
   Phone,
-  Instagram,
-  Clock,
-  MapPin,
-  UtensilsCrossed,
-  Flame,
   ArrowRight,
   Menu as MenuIcon,
   X,
@@ -85,7 +80,7 @@ const SpiceParticle = ({ delay }) => {
 };
 
 const handleWhatsApp = (cart = []) => {
-  const phoneNumber = "201060447418";
+  const phoneNumber = "201042866559";
   let message = "";
 
   if (cart.length > 0) {
