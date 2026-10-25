@@ -4,20 +4,29 @@
   --font-serif: "Playfair Display", serif;
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-arabic: "Amiri", serif;
+
+  --color-cream: #fbf6ee;
+  --color-sand: #f3e8d6;
+  --color-terracotta: #c2410c;
+  --color-terracotta-dark: #9a3412;
+  --color-olive: #4d5b2a;
+  --color-ink: #3b2a1e;
+  --color-muted: #7a6a5a;
 }
 
 :root {
-  --color-primary: #78350f;
-  --color-accent: #b45309;
-  --color-bg: #faf8f5;
+  --color-primary: #c2410c;
+  --color-accent: #4d5b2a;
+  --color-bg: #fbf6ee;
 }
 
 body {
   margin: 0;
   background-color: var(--color-bg);
-  color: #1c1917;
+  color: #3b2a1e;
   overflow-x: hidden;
-  font-size: 17px; /* Recalibrated base size */
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 17px;
 }
 
 @media (max-width: 1024px) {
@@ -26,37 +35,34 @@ body {
   }
 }
 
-/* Specific Arabic styling */
 [dir="rtl"] {
   font-family: "Amiri", serif;
   line-height: 1.5;
 }
 
-/* Grainy texture overlay */
 .grain-overlay {
   pointer-events: none;
   position: fixed;
   inset: 0;
   z-index: 9999;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Glassmorphism */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(251, 246, 238, 0.85);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(194, 65, 12, 0.08);
 }
 
-.dark-glass {
-  background: rgba(28, 25, 23, 0.8);
-  backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.soft-shadow {
+  box-shadow: 0 18px 40px -20px rgba(59, 42, 30, 0.25);
 }
 
-
+.recipe-border {
+  border: 2px dashed rgba(194, 65, 12, 0.2);
+}
 
 html {
   scroll-behavior: smooth;
@@ -68,4 +74,18 @@ html {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
